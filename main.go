@@ -21,20 +21,19 @@ func main()  {
 		})
 	})
 
-	// create route get all departments
+	// Department routes
 	router.GET("/api/departments", controllers.FindDepartments)
-
-	// create route store department
 	router.POST("/api/departments", controllers.StoreDepartment)
-
-	// create route detail department
 	router.GET("/api/departments/:id", controllers.FindDepartmentById)
-
-	// create route update department
 	router.PUT("/api/departments/:id", controllers.UpdateDepartment)
-
-	// create route delete department
 	router.DELETE("/api/departments/:id", controllers.DeleteDepartment)
+
+	// Position routes
+	router.GET("/api/positions", controllers.FindPositions)
+	router.POST("/api/positions", controllers.StorePosition)
+	router.GET("/api/positions/:id", controllers.FindPositionById)
+	router.PUT("/api/positions/:id", controllers.UpdatePosition)
+	router.DELETE("/api/positions/:id", controllers.DeletePosition)
 
 	// start server with port 3000
 	router.Run(":3000")

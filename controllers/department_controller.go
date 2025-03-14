@@ -15,21 +15,6 @@ type ValidateDepartmentInput struct {
 	DepartmentName     string `json:"department_name" binding:"required"`
 }
 
-// type error message
-type ErrorMsg struct {
-	Field   string `json:"field"`
-	Message string `json:"message"`
-}
-
-// function get error message
-func GetErrorMsg(fe validator.FieldError) string {
-	switch fe.Tag() {
-	case "required":
-		return "This field is required"
-	}
-	return "Unknown Error"
-}
-
 // get all departments
 func FindDepartments(c *gin.Context) {
 	var departments []models.Department
