@@ -13,9 +13,9 @@ Request :
 
 <!-- CRUD Department -->
 
-## CRUD Department
+## CRUD Department +
 
-### Create Department +
+### Create Department 
 
 Request :
 
@@ -48,7 +48,7 @@ Response :
 }
 ```
 
-## Get Department by id +
+## Get Department by id 
 
 Request :
 
@@ -73,7 +73,7 @@ Response :
 }
 ```
 
-## List Department +
+## List Department 
 
 Request :
 
@@ -106,7 +106,7 @@ Response :
 }
 ```
 
-## Update Department +
+## Update Department 
 
 Request :
 
@@ -140,7 +140,7 @@ Response :
 }
 ```
 
-## Delete Department +
+## Delete Department 
 
 Request :
 
@@ -160,7 +160,7 @@ Response :
 
 <!-- CRUD Position -->
 
-## CRUD Position
+## CRUD Position +
 
 ### Create Position
 

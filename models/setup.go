@@ -1,6 +1,8 @@
 package models
 
 import (
+	"fmt"
+
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
@@ -14,7 +16,24 @@ func ConnectDatabase() {
 		panic("failed to connect database")
 	}
 
-	database.AutoMigrate(&Department{}, &Position{})
+	// Cetak pesan saat mulai migrasi
+	fmt.Println("Starting database migration...")
+
+	// database.AutoMigrate(&Department{}, &Position{}, &Employee{})
+
+	// Migrasi model Department dan Position terlebih dahulu
+	err = database.AutoMigrate(&Department{}, &Position{})
+	if err != nil {
+			panic("failed to migrate Department and Position: " + err.Error())
+	}
+	
+	// Migrasi model Employee
+	err = database.AutoMigrate(&Employee{})
+	if err != nil {
+			panic("failed to migrate Employee: " + err.Error())
+	}
+	
+	fmt.Println("Database migration completed successfully")
 
 	DB = database
 }

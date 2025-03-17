@@ -21,6 +21,10 @@ func main()  {
 		})
 	})
 
+	// Auth routes
+	router.POST("/api/register", controllers.Register)
+	router.POST("/api/login", controllers.Login)
+
 	// Department routes
 	router.GET("/api/departments", controllers.FindDepartments)
 	router.POST("/api/departments", controllers.StoreDepartment)
