@@ -52,6 +52,13 @@ func main()  {
 	router.PUT("/api/positions/:id", controllers.UpdatePosition)
 	router.DELETE("/api/positions/:id", controllers.DeletePosition)
 
+	// Shift routes
+	router.GET("/api/shifts", controllers.FindShifts)
+	router.POST("/api/shifts", controllers.StoreShift)
+	router.GET("/api/shifts/:id", controllers.FindShiftById)
+	router.PUT("/api/shifts/:id", controllers.UpdateShift)
+	router.DELETE("/api/shifts/:id", controllers.DeleteShift)
+
 	// start server with port 3000
 	router.Run(":3000")
 }

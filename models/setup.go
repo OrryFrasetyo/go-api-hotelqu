@@ -22,9 +22,9 @@ func ConnectDatabase() {
 	// database.AutoMigrate(&Department{}, &Position{}, &Employee{})
 
 	// Migrasi model Department dan Position terlebih dahulu
-	err = database.AutoMigrate(&Department{}, &Position{})
+	err = database.AutoMigrate(&Department{}, &Position{}, &Shift{})
 	if err != nil {
-			panic("failed to migrate Department and Position: " + err.Error())
+			panic("failed to migrate Department, Position, and Shift: " + err.Error())
 	}
 	
 	// Migrasi model Employee

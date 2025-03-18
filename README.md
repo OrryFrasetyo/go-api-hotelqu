@@ -15,7 +15,7 @@ Request :
 
 ## CRUD Department +
 
-### Create Department 
+### Create Department
 
 Request :
 
@@ -48,7 +48,7 @@ Response :
 }
 ```
 
-## Get Department by id 
+## Get Department by id
 
 Request :
 
@@ -73,7 +73,7 @@ Response :
 }
 ```
 
-## List Department 
+## List Department
 
 Request :
 
@@ -106,7 +106,7 @@ Response :
 }
 ```
 
-## Update Department 
+## Update Department
 
 Request :
 
@@ -140,7 +140,7 @@ Response :
 }
 ```
 
-## Delete Department 
+## Delete Department
 
 Request :
 
@@ -159,6 +159,158 @@ Response :
 ```
 
 <!-- CRUD Position -->
+
+<!-- CRUD Shift -->
+
+## CRUD Shift
+
+### Create Shift
+
+Request :
+
+- Method : POST
+- Endpoint : `/api/shifts`
+- Header :
+  - Content-Type: application/json
+  - Accept: application/json
+- Body :
+
+```json
+{
+  "type": "string",
+  "start_time": "time",
+  "end_time": "time"
+}
+```
+
+Response :
+
+```json
+{
+  "error": "false",
+  "message": "string",
+  "data": {
+    "id": "string, unique",
+    "type": "string",
+    "start_time": "time",
+    "end_time": "time"
+  }
+}
+```
+
+## Get Shift by Id
+
+Request :
+
+- Method : GET
+- Endpoint : `/api/shifts/{id_shift}`
+- Header :
+  - Accept: application/json
+- Query Param :
+  - id : number,
+
+Response :
+
+```json
+{
+  "error": "false",
+  "message": "string",
+  "data": {
+    "id": "string, unique",
+    "type": "string",
+    "start_time": "time",
+    "end_time": "time"
+  }
+}
+```
+
+## List Shift
+
+Request :
+
+- Method : GET
+- Endpoint : `/api/shifts`
+- Header :
+  - Accept: application/json
+
+Response :
+
+```json
+{
+  "error": "false",
+  "message": "string",
+  "data": [
+    {
+      "id": "string, unique",
+      "type": "string",
+      "start_time": "time",
+      "end_time": "time"
+    },
+    {
+      "id": "string, unique",
+      "type": "string",
+      "start_time": "time",
+      "end_time": "time"
+    }
+  ]
+}
+```
+
+## Update Shift
+
+Request :
+
+- Method : PUT
+- Endpoint : `/api/shifts/{id_shift}`
+- Header :
+  - Content-Type: application/json
+  - Accept: application/json
+- Query Param :
+  - id : number,
+- Body :
+
+```json
+{
+  "type": "string",
+  "start_time": "time",
+  "end_time": "time"
+}
+```
+
+Response :
+
+```json
+{
+  "error": "false",
+  "message": "string",
+  "data": {
+    "id": "string, unique",
+    "type": "string",
+    "start_time": "time",
+    "end_time": "time"
+  }
+}
+```
+
+## Delete Shift
+
+Request :
+
+- Method : DELETE
+- Endpoint : `/api/shifts/{id_shift}`
+- Header :
+  - Accept: application/json
+
+Response :
+
+```json
+{
+  "error": "string",
+  "message": "string"
+}
+```
+
+<!-- CRUD Shift -->
 
 ## CRUD Position +
 
@@ -383,7 +535,7 @@ Response :
 
 ## Profile Employee +
 
-### Get Profile Employee 
+### Get Profile Employee
 
 Request :
 
