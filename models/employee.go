@@ -16,10 +16,6 @@ type Employee struct {
 	Phone      string   `json:"phone" gorm:"type:varchar(16);not null"`
 }
 
-// func (Employee) TableName() string {
-// 	return "employees"
-// }
-
 // HashPassword converts plain text passwords into bcrypt hashes
 func (e *Employee) HashPassword(password string) error {
 	bytes, err := bcrypt.GenerateFromPassword([]byte(password), 14)

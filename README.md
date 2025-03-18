@@ -319,7 +319,7 @@ Response :
 
 <!-- Panel Admin -->
 
-## Register (Done)
+## Register +
 
 Request :
 
@@ -349,7 +349,7 @@ Response :
 }
 ```
 
-## Login (Done)
+## Login +
 
 Request :
 
@@ -381,7 +381,9 @@ Response :
 }
 ```
 
-## Get Profile User (Done)
+## Profile Employee +
+
+### Get Profile Employee 
 
 Request :
 
@@ -409,7 +411,7 @@ Response :
 }
 ```
 
-## Update Profile User (Done)
+### Update Profile Employee
 
 Request :
 

@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/OrryFrasetyo/go-api-hotelqu/controllers"
+	"github.com/OrryFrasetyo/go-api-hotelqu/middlewares"
 	"github.com/OrryFrasetyo/go-api-hotelqu/models"
 	"github.com/gin-gonic/gin"
 )
@@ -9,6 +10,9 @@ import (
 func main()  {
 	// initialization Gin
 	router := gin.Default()
+
+	// Static file server for uploads
+	router.Static("/uploads", "./uploads")
 
 	// call database connection
 	models.ConnectDatabase()
@@ -24,6 +28,15 @@ func main()  {
 	// Auth routes
 	router.POST("/api/register", controllers.Register)
 	router.POST("/api/login", controllers.Login)
+
+	// Protected routes (requiring JWT authentication)
+	protected := router.Group("/api")
+	protected.Use(middlewares.JWTAuth())
+	{
+		// User profile route
+		protected.GET("/user", controllers.GetProfile)
+		protected.PUT("/user", controllers.UpdateProfile)
+	}
 
 	// Department routes
 	router.GET("/api/departments", controllers.FindDepartments)

@@ -62,15 +62,6 @@ func Register(c *gin.Context) {
 		return
 	}
 
-	// Search position by position name
-	// var position models.Position
-	// if err := models.DB.Where("position_name = ?", input.Position).First(&position).Error; err != nil {
-	// 	c.JSON(http.StatusBadRequest, gin.H{
-	// 		"error":   true,
-	// 		"message": "Position not found",
-	// 	})
-	// 	return
-	// }
 	var position models.Position
     result := models.DB.Where("position_name = ?", input.Position).First(&position)
     if result.Error != nil {
