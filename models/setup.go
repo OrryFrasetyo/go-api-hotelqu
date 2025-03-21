@@ -19,18 +19,11 @@ func ConnectDatabase() {
 	// Cetak pesan saat mulai migrasi
 	fmt.Println("Starting database migration...")
 
-	// database.AutoMigrate(&Department{}, &Position{}, &Employee{})
 
 	// Migrasi model Department dan Position terlebih dahulu
-	err = database.AutoMigrate(&Department{}, &Position{}, &Shift{})
+	err = database.AutoMigrate(&Department{}, &Position{}, &Shift{}, &Employee{}, &Schedule{})
 	if err != nil {
-			panic("failed to migrate Department, Position, and Shift: " + err.Error())
-	}
-	
-	// Migrasi model Employee
-	err = database.AutoMigrate(&Employee{})
-	if err != nil {
-			panic("failed to migrate Employee: " + err.Error())
+			panic("failed to migrate Department, Position, Shift, Employee, " + err.Error())
 	}
 	
 	fmt.Println("Database migration completed successfully")

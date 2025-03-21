@@ -162,7 +162,7 @@ Response :
 
 <!-- CRUD Shift -->
 
-## CRUD Shift
+## CRUD Shift +
 
 ### Create Shift
 
@@ -758,53 +758,6 @@ Response :
 
 <!-- ## Get All attendance users (panel admin) -->
 
-## Get All Schedule Employee (Done)
-
-Request :
-
-- Method : GET
-- Endpoint : `/api/schedules`
-- Header :
-  - Authorization : Bearer "token_key"
-  - Accept: application/json
-
-Response :
-
-```json
-{
-  "error": "boolean",
-  "message": "string",
-  "schedules": [
-    {
-      "id": "int, unique",
-      "shift_id": "integer",
-      "employee_id": "integer",
-      "created_by": "integer",
-      "name": "string",
-      "position": "string",
-      "date_schedule": "date",
-      "status": "string",
-      "type": "string",
-      "start_time": "time",
-      "end_time": "time"
-    },
-    {
-      "id": "int, unique",
-      "shift_id": "integer",
-      "employee_id": "integer",
-      "created_by": "integer",
-      "name": "string",
-      "position": "string",
-      "date_schedule": "date",
-      "status": "string",
-      "type": "string",
-      "start_time": "time",
-      "end_time": "time"
-    }
-  ]
-}
-```
-
 ## Create Attendance Employee (Done)
 
 Request :
@@ -864,6 +817,57 @@ Response :
 }
 ```
 
+## Get All Schedule Employee
+
+Request :
+
+- Method : GET
+- Endpoint : `/api/schedules`
+- Header :
+  - Authorization : Bearer "token_key"
+  - Accept: application/json
+
+Response :
+
+```json
+{
+  "error": "boolean",
+  "message": "string",
+  "schedules": [
+    {
+      "id": "int, unique",
+      "shift_id": "integer",
+      "employee_id": "integer",
+      "created_by": "integer",
+      "name": "string",
+      "position": "string",
+      "date_schedule": "date",
+      "status": "string",
+      "type": "string",
+      "start_time": "time",
+      "end_time": "time",
+      "created_at": "time",
+      "updated_at": "time"
+    },
+    {
+      "id": "int, unique",
+      "shift_id": "integer",
+      "employee_id": "integer",
+      "created_by": "integer",
+      "name": "string",
+      "position": "string",
+      "date_schedule": "date",
+      "status": "string",
+      "type": "string",
+      "start_time": "time",
+      "end_time": "time",
+      "created_at": "time",
+      "updated_at": "time"
+    }
+  ]
+}
+```
+
 <!-- CRUD Schedule -->
 
 ## Create Schedule Employee
@@ -909,15 +913,20 @@ Response :
 }
 ```
 
-## List Schedule Employee (In Department)
+## List Schedule Employee (Tiap - tiap department)
+<!-- Ini dikelola oleh manajer/supervisor di tiap departemen -->
 
 Request :
 
 - Method : GET
-- Endpoint : `/api/schedules`
+- Endpoint : `/api/schedules/department`
 - Header :
   - Authorization : Bearer "token_key"
   - Accept: application/json
+- Parameter :
+  - date : string (format: DD-MM-YYYY, opsional) - untuk memfilter berdasarkan tanggal
+  - department_id : integer (opsional) - untuk memfilter berdasarkan departemen
+  - status : string (opsional) - untuk memfilter berdasarkan status ("hadir", "izin", "alpa", dll.)
 
 Response :
 
@@ -925,48 +934,58 @@ Response :
 {
   "error": "boolean",
   "message": "string",
+  "meta": {
+    "date": "string",
+    "department": {
+      "id": "integer",
+      "name": "string"
+    },
+    "total_employees": "integer"
+  },
   "schedules": [
     {
-      "id": "int, unique",
-      "created_by": "integer",
-      "shift_id": "integer",
-      "employee_id": "integer",
-      "name": "string",
-      "position": "string",
-      "type": "string",
-      "date_schedule": "date",
+      "id": "integer",
+      "employee": {
+        "id": "integer",
+        "name": "string",
+        "position": "string"
+      },
+      "shift": {
+        "id": "integer",
+        "name": "string",
+        "clock_in": "string",
+        "clock_out": "string"
+      },
+      "date_schedule": "string",
       "status": "string",
-      "date_schedule": "date",
-      "clock_in": "time",
-      "clock_out": "time"
+      "created_by": {
+        "id": "string",
+        "name": "string"
+      },
+      "created_at": "string",
+      "updated_at": "string"
     },
     {
-      "id": "int, unique",
-      "created_by": "integer",
-      "shift_id": "integer",
-      "employee_id": "integer",
-      "name": "string",
-      "position": "string",
-      "type": "string",
-      "date_schedule": "date",
+      "id": "integer",
+      "employee": {
+        "id": "integer",
+        "name": "string",
+        "position": "string"
+      },
+      "shift": {
+        "id": "integer",
+        "name": "string",
+        "clock_in": "string",
+        "clock_out": "string"
+      },
+      "date_schedule": "string",
       "status": "string",
-      "date_schedule": "date",
-      "clock_in": "time",
-      "clock_out": "time"
-    },
-    {
-      "id": "int, unique",
-      "created_by": "integer",
-      "shift_id": "integer",
-      "employee_id": "integer",
-      "name": "string",
-      "position": "string",
-      "type": "string",
-      "date_schedule": "date",
-      "status": "string",
-      "date_schedule": "date",
-      "clock_in": "time",
-      "clock_out": "time"
+      "created_by": {
+        "id": "string",
+        "name": "string"
+      },
+      "created_at": "string",
+      "updated_at": "string"
     }
   ]
 }
