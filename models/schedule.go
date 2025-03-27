@@ -10,7 +10,7 @@ type Schedule struct {
 	Shift        Shift     `json:"shift" gorm:"foreignKey:ShiftID"`
 	CreatedBy    uint      `json:"created_by" gorm:"index"`
 	Creator      Employee  `json:"creator" gorm:"foreignKey:CreatedBy"`
-	DateSchedule time.Time `json:"date_schedule" gorm:"type:date;index"`
+	DateSchedule string  		`json:"date_schedule" gorm:"type:date"`
 	Status       string    `json:"status" gorm:"type:varchar(20);default:'hadir'"`
 	CreatedAt    time.Time `json:"created_at" gorm:"autoCreateTime"`
 	UpdatedAt    time.Time `json:"updated_at" gorm:"autoUpdateTime"`

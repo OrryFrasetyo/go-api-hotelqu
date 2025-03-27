@@ -897,18 +897,28 @@ Response :
   "error": "boolean",
   "message": "string",
   "schedule": {
-    "id": "int, unique",
-    "created_by": "integer",
-    "shift_id": "integer",
-    "employee_id": "integer",
-    "name": "string",
-    "position": "string",
-    "type": "string",
-    "date_schedule": "date",
-    "status": "string",
-    "date_schedule": "date",
-    "clock_in": "time",
-    "clock_out": "time"
+    {
+      "id": "integer",
+      "employee": {
+        "id": "integer",
+        "name": "string",
+        "position": "string"
+      },
+      "shift": {
+        "id": "integer",
+        "name": "string",
+        "clock_in": "string",
+        "clock_out": "string"
+      },
+      "date_schedule": "string",
+      "status": "string",
+      "created_by": {
+        "id": "string",
+        "name": "string"
+      },
+      "created_at": "string",
+      "updated_at": "string"
+    },
   }
 }
 ```

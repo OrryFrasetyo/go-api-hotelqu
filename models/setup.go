@@ -10,7 +10,7 @@ import (
 var DB *gorm.DB
 
 func ConnectDatabase() {
-	dsn := "root:@tcp(127.0.0.1:3306)/hotelqu_db"
+	dsn := "root:@tcp(127.0.0.1:3306)/hotelqu_db?parseTime=true"
 	database, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
 		panic("failed to connect database")

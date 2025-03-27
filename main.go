@@ -37,6 +37,7 @@ func main()  {
 		protected.GET("/user", controllers.GetProfile)
 		protected.PUT("/user", controllers.UpdateProfile)
 		protected.GET("/schedules/department", controllers.ListDepartmentSchedules)
+		protected.POST("/schedules", controllers.CreateSchedule)
 	}
 
 	// Department routes
