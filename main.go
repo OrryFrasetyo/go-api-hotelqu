@@ -38,6 +38,8 @@ func main()  {
 		protected.PUT("/user", controllers.UpdateProfile)
 		protected.GET("/schedules/department", controllers.ListDepartmentSchedules)
 		protected.POST("/schedules", controllers.CreateSchedule)
+		protected.PUT("/schedules/:id", controllers.UpdateSchedule)
+		protected.DELETE("/schedules/:id", controllers.DeleteSchedule)
 	}
 
 	// Department routes

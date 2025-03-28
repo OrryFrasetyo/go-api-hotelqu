@@ -870,7 +870,7 @@ Response :
 
 <!-- CRUD Schedule -->
 
-## Create Schedule Employee
+## Create Schedule Employee +
 
 Request :
 
@@ -897,33 +897,32 @@ Response :
   "error": "boolean",
   "message": "string",
   "schedule": {
-    {
+    "id": "integer",
+    "employee": {
       "id": "integer",
-      "employee": {
-        "id": "integer",
-        "name": "string",
-        "position": "string"
-      },
-      "shift": {
-        "id": "integer",
-        "name": "string",
-        "clock_in": "string",
-        "clock_out": "string"
-      },
-      "date_schedule": "string",
-      "status": "string",
-      "created_by": {
-        "id": "string",
-        "name": "string"
-      },
-      "created_at": "string",
-      "updated_at": "string"
+      "name": "string",
+      "position": "string"
     },
+    "shift": {
+      "id": "integer",
+      "name": "string",
+      "clock_in": "string",
+      "clock_out": "string"
+    },
+    "date_schedule": "string",
+    "status": "string",
+    "created_by": {
+      "id": "string",
+      "name": "string"
+    },
+    "created_at": "string",
+    "updated_at": "string"
   }
 }
 ```
 
-## List Schedule Employee (Tiap - tiap department)
+## List Schedule Employee (Tiap - tiap department) +
+
 <!-- Ini dikelola oleh manajer/supervisor di tiap departemen -->
 
 Request :
@@ -1001,7 +1000,7 @@ Response :
 }
 ```
 
-## Update Schedule Employee
+## Update Schedule Employee +
 
 Request :
 
@@ -1029,23 +1028,31 @@ Response :
   "error": "boolean",
   "message": "string",
   "schedule": {
-    "id": "int, unique",
-    "created_by": "integer",
-    "shift_id": "integer",
-    "employee_id": "integer",
-    "name": "string",
-    "position": "string",
-    "type": "string",
-    "date_schedule": "date",
+    "id": "integer",
+    "employee": {
+      "id": "integer",
+      "name": "string",
+      "position": "string"
+    },
+    "shift": {
+      "id": "integer",
+      "name": "string",
+      "clock_in": "string",
+      "clock_out": "string"
+    },
+    "date_schedule": "string",
     "status": "string",
-    "date_schedule": "date",
-    "clock_in": "time",
-    "clock_out": "time"
+    "created_by": {
+      "id": "string",
+      "name": "string"
+    },
+    "created_at": "string",
+    "updated_at": "string"
   }
 }
 ```
 
-## Delete Schedule Employee
+## Delete Schedule Employee +
 
 Request :
 
