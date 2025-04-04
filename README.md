@@ -606,12 +606,14 @@ Response :
 <!-- ## Get All Profile User (Panel Admin)
 ## Delete Profile User (Panel Admin) -->
 
-## Get Attendance Employee by DateNow (Done)
+## Presence Employee
+
+### Get Attendance Employee by DateNow
 
 Request :
 
 - Method : GET
-- Endpoint : `api/attendance?date={date}`
+- Endpoint : `api/attendance`
 - Header :
   - Authorization : Bearer "token_key"
   - Accept: application/json
@@ -622,33 +624,45 @@ Response :
 {
   "error": "boolean",
   "message": "string",
-  "attendance": {
+  "attendance_now": {
     "id": "int, unique",
-    "shift_id": "integer",
-    "employee_id": "integer",
-    "created_by": "integer",
-    "schedule_id": "integer",
-    "name": "string",
-    "position": "string",
-    "type": "string",
-    "date_schedule": "date",
-    "status": "string",
+    "employee": {
+      "name": "string",
+      "position": "string"
+    },
+    "schedule": {
+      "id": "integer",
+      "date_schedule": "string",
+      "status": "string",
+      "shift": {
+        "id": "number",
+        "type": "text",
+        "start_end": "text",
+        "end_time": "text"
+      }
+    },
     "date": "date",
-    "clock_in": "time",
-    "clock_out": "time",
+    "clock_in": "string",
+    "clock_out": "string",
     "duration": "string",
     "clock_in_status": "string",
-    "clock_out_status": "string"
+    "clock_out_status": "string",
+    "created_at": "string",
+    "updated_at": "string"
   }
 }
 ```
 
-## Get Attendance by Status (Done)
+### Get Attendance by Status (clock in status / clock out status)
 
 Request :
 
 - Method : GET
 - Endpoint : `api/attendance?status={clock_in_status}`
+- Param :
+  - clock_in_status : "string" (optional)
+  - clock_out_status : "string" (optional)
+  - Pilih salah satu clock_in atau clock_out
 - Header :
   - Authorization : Bearer "token_key"
   - Accept: application/json
@@ -662,50 +676,195 @@ Response :
   "attendances": [
     {
       "id": "int, unique",
-      "shift_id": "integer",
-      "employee_id": "integer",
-      "created_by": "integer",
-      "schedule_id": "integer",
-      "name": "string",
-      "position": "string",
-      "type": "string",
-      "date_schedule": "date",
-      "status": "string",
+      "employee": {
+        "name": "string",
+        "position": "string"
+      },
+      "schedule": {
+        "id": "integer",
+        "date_schedule": "string",
+        "status": "string",
+        "shift": {
+          "id": "number",
+          "type": "text",
+          "start_end": "text",
+          "end_time": "text"
+        }
+      },
       "date": "date",
-      "clock_in": "time",
-      "clock_out": "time",
+      "clock_in": "string",
+      "clock_out": "string",
       "duration": "string",
       "clock_in_status": "string",
-      "clock_out_status": "string"
+      "clock_out_status": "string",
+      "created_at": "string",
+      "updated_at": "string"
     },
-
     {
       "id": "int, unique",
-      "shift_id": "integer",
-      "employee_id": "integer",
-      "created_by": "integer",
-      "name": "string",
-      "position": "string",
-      "type": "string",
-      "date_schedule": "date",
-      "status": "string",
+      "employee": {
+        "name": "string",
+        "position": "string"
+      },
+      "schedule": {
+        "id": "integer",
+        "date_schedule": "string",
+        "status": "string",
+        "shift": {
+          "id": "number",
+          "type": "text",
+          "start_end": "text",
+          "end_time": "text"
+        }
+      },
       "date": "date",
-      "clock_in": "time",
-      "clock_out": "time",
+      "clock_in": "string",
+      "clock_out": "string",
       "duration": "string",
       "clock_in_status": "string",
-      "clock_out_status": "string"
+      "clock_out_status": "string",
+      "created_at": "string",
+      "updated_at": "string"
+    },
+    {
+      "id": "int, unique",
+      "employee": {
+        "name": "string",
+        "position": "string"
+      },
+      "schedule": {
+        "id": "integer",
+        "date_schedule": "string",
+        "status": "string",
+        "shift": {
+          "id": "number",
+          "type": "text",
+          "start_end": "text",
+          "end_time": "text"
+        }
+      },
+      "date": "date",
+      "clock_in": "string",
+      "clock_out": "string",
+      "duration": "string",
+      "clock_in_status": "string",
+      "clock_out_status": "string",
+      "created_at": "string",
+      "updated_at": "string"
     }
   ]
 }
 ```
 
-## Get All Attendance (Done)
+### Get Attendance by time span
 
 Request :
 
 - Method : GET
-- Endpoint : `api/attendance?status={clock_in_status}`
+- Endpoint : `api/attendance?date_start={date}&date_end={date}`
+- Param :
+  - date_start : "string",
+  - date_end : "string"
+- Header :
+  - Authorization : Bearer "token_key"
+  - Accept: application/json
+
+Response :
+
+```json
+{
+  "error": "boolean",
+  "message": "string",
+  "attendance": [
+    {
+      "id": "int, unique",
+      "employee": {
+        "name": "string",
+        "position": "string"
+      },
+      "schedule": {
+        "id": "integer",
+        "date_schedule": "string",
+        "status": "string",
+        "shift": {
+          "id": "number",
+          "type": "text",
+          "start_end": "text",
+          "end_time": "text"
+        }
+      },
+      "date": "date",
+      "clock_in": "string",
+      "clock_out": "string",
+      "duration": "string",
+      "clock_in_status": "string",
+      "clock_out_status": "string",
+      "created_at": "string",
+      "updated_at": "string"
+    },
+    {
+      "id": "int, unique",
+      "employee": {
+        "name": "string",
+        "position": "string"
+      },
+      "schedule": {
+        "id": "integer",
+        "date_schedule": "string",
+        "status": "string",
+        "shift": {
+          "id": "number",
+          "type": "text",
+          "start_end": "text",
+          "end_time": "text"
+        }
+      },
+      "date": "date",
+      "clock_in": "string",
+      "clock_out": "string",
+      "duration": "string",
+      "clock_in_status": "string",
+      "clock_out_status": "string",
+      "created_at": "string",
+      "updated_at": "string"
+    },
+    {
+      "id": "int, unique",
+      "employee": {
+        "name": "string",
+        "position": "string"
+      },
+      "schedule": {
+        "id": "integer",
+        "date_schedule": "string",
+        "status": "string",
+        "shift": {
+          "id": "number",
+          "type": "text",
+          "start_end": "text",
+          "end_time": "text"
+        }
+      },
+      "date": "date",
+      "clock_in": "string",
+      "clock_out": "string",
+      "duration": "string",
+      "clock_in_status": "string",
+      "clock_out_status": "string",
+      "created_at": "string",
+      "updated_at": "string"
+    }
+  ]
+}
+```
+
+### Get Attendance by 3 date ago
+
+Request :
+
+- Method : GET
+- Endpoint : `api/attendance?`
+- Param : 3 tanggal sebelumnya (misal dari tanggal hari ini - 2 hari sebelumnya)
 - Header :
   - Authorization : Bearer "token_key"
   - Accept: application/json
@@ -719,38 +878,81 @@ Response :
   "attendances": [
     {
       "id": "int, unique",
-      "shift_id": "integer",
-      "employee_id": "integer",
-      "created_by": "integer",
-      "name": "string",
-      "position": "string",
-      "type": "string",
-      "date_schedule": "date",
-      "status": "string",
+      "employee": {
+        "name": "string",
+        "position": "string"
+      },
+      "schedule": {
+        "id": "integer",
+        "date_schedule": "string",
+        "status": "string",
+        "shift": {
+          "id": "number",
+          "type": "text",
+          "start_end": "text",
+          "end_time": "text"
+        }
+      },
       "date": "date",
-      "clock_in": "time",
-      "clock_out": "time",
+      "clock_in": "string",
+      "clock_out": "string",
       "duration": "string",
       "clock_in_status": "string",
-      "clock_out_status": "string"
+      "clock_out_status": "string",
+      "created_at": "string",
+      "updated_at": "string"
     },
-
     {
       "id": "int, unique",
-      "shift_id": "integer",
-      "employee_id": "integer",
-      "created_by": "integer",
-      "name": "string",
-      "position": "string",
-      "type": "string",
-      "date_schedule": "date",
-      "status": "string",
+      "employee": {
+        "name": "string",
+        "position": "string"
+      },
+      "schedule": {
+        "id": "integer",
+        "date_schedule": "string",
+        "status": "string",
+        "shift": {
+          "id": "number",
+          "type": "text",
+          "start_end": "text",
+          "end_time": "text"
+        }
+      },
       "date": "date",
-      "clock_in": "time",
-      "clock_out": "time",
+      "clock_in": "string",
+      "clock_out": "string",
       "duration": "string",
       "clock_in_status": "string",
-      "clock_out_status": "string"
+      "clock_out_status": "string",
+      "created_at": "string",
+      "updated_at": "string"
+    },
+    {
+      "id": "int, unique",
+      "employee": {
+        "name": "string",
+        "position": "string"
+      },
+      "schedule": {
+        "id": "integer",
+        "date_schedule": "string",
+        "status": "string",
+        "shift": {
+          "id": "number",
+          "type": "text",
+          "start_end": "text",
+          "end_time": "text"
+        }
+      },
+      "date": "date",
+      "clock_in": "string",
+      "clock_out": "string",
+      "duration": "string",
+      "clock_in_status": "string",
+      "clock_out_status": "string",
+      "created_at": "string",
+      "updated_at": "string"
     }
   ]
 }
@@ -758,7 +960,7 @@ Response :
 
 <!-- ## Get All attendance users (panel admin) -->
 
-## Create Attendance Employee (Done)
+### Create Attendance Employee (For Checkin)
 
 Request :
 
@@ -772,21 +974,7 @@ Request :
 
 ```json
 {
-  "shift_id": "integer",
-  "employee_id": "integer",
-  "created_by": "integer",
-  "schedule_id": "integer",
-  "name": "string",
-  "position": "string",
-  "type": "string",
-  "date_schedule": "date",
-  "status": "string",
-  "date": "date",
-  "clock_in": "time",
-  "clock_out": "time",
-  "duration": "string",
-  "clock_in_status": "string",
-  "clock_out_status": "string"
+  "clock_in": "time"
 }
 ```
 
@@ -798,26 +986,92 @@ Response :
   "message": "string",
   "attendance": {
     "id": "int, unique",
-    "shift_id": "integer",
-    "employee_id": "integer",
-    "created_by": "integer",
-    "schedule_id": "integer",
-    "name": "string",
-    "position": "string",
-    "type": "string",
-    "date_schedule": "date",
-    "status": "string",
+    "employee": {
+      "id": "integer",
+      "name": "string",
+      "position": "string"
+    },
+    "schedule": {
+      "id": "integer",
+      "date_schedule": "string",
+      "status": "string",
+      "shift": {
+        "id": "number",
+        "type": "text",
+        "start_end": "text",
+        "end_time": "text"
+      }
+    },
     "date": "date",
-    "clock_in": "time",
-    "clock_out": "time",
+    "clock_in": "string",
+    "clock_out": "string",
     "duration": "string",
     "clock_in_status": "string",
-    "clock_out_status": "string"
+    "clock_out_status": "string",
+    "created_at": "string",
+    "updated_at": "string"
   }
 }
 ```
 
-## Get All Schedule Employee
+### Update Attendace Employee (For Checkout)
+
+Request :
+
+- Method : PUT
+- Endpoint : `/api/attendance`
+- Header :
+  - Authorization : Bearer "token_key"
+  - Content-Type: application/json
+  - Accept: application/json
+- Body :
+
+```json
+{
+  "clock_out": "time"
+}
+```
+
+Response :
+
+```json
+{
+  "error": "boolean",
+  "message": "string",
+  "attendance": {
+    "id": "int, unique",
+    "employee": {
+      "name": "string",
+      "position": "string"
+    },
+    "schedule": {
+      "id": "integer",
+      "date_schedule": "string",
+      "status": "string",
+      "shift": {
+        "id": "number",
+        "type": "text",
+        "start_end": "text",
+        "end_time": "text"
+      }
+    },
+    "date": "date",
+    "clock_in": "string",
+    "clock_out": "string",
+    "duration": "string",
+    "clock_in_status": "string",
+    "clock_out_status": "string",
+    "created_at": "string",
+    "updated_at": "string"
+  }
+}
+```
+
+<!-- Presence -->
+
+## Schedule Employee +
+
+### Get All Schedule Employee
 
 Request :
 
@@ -868,9 +1122,7 @@ Response :
 }
 ```
 
-<!-- CRUD Schedule -->
-
-## Create Schedule Employee +
+### Create Schedule Employee +
 
 Request :
 
@@ -921,7 +1173,7 @@ Response :
 }
 ```
 
-## List Schedule Employee (Tiap - tiap department) +
+### List Schedule Employee (Tiap - tiap department) +
 
 <!-- Ini dikelola oleh manajer/supervisor di tiap departemen -->
 
@@ -1000,7 +1252,7 @@ Response :
 }
 ```
 
-## Update Schedule Employee +
+### Update Schedule Employee +
 
 Request :
 
@@ -1052,7 +1304,7 @@ Response :
 }
 ```
 
-## Delete Schedule Employee +
+### Delete Schedule Employee +
 
 Request :
 
