@@ -608,7 +608,7 @@ Response :
 
 ## Presence Employee
 
-### Get Attendance Employee by DateNow
+### Get Attendance Employee by DateNow +
 
 Request :
 
@@ -759,15 +759,12 @@ Response :
 }
 ```
 
-### Get Attendance by time span
+### Get Attendance this month +
 
 Request :
 
 - Method : GET
-- Endpoint : `api/attendance?date_start={date}&date_end={date}`
-- Param :
-  - date_start : "string",
-  - date_end : "string"
+- Endpoint : `api/attendance/month`
 - Header :
   - Authorization : Bearer "token_key"
   - Accept: application/json
@@ -778,7 +775,7 @@ Response :
 {
   "error": "boolean",
   "message": "string",
-  "attendance": [
+  "attendances": [
     {
       "id": "int, unique",
       "employee": {
@@ -792,7 +789,7 @@ Response :
         "shift": {
           "id": "number",
           "type": "text",
-          "start_end": "text",
+          "start_time": "text",
           "end_time": "text"
         }
       },
@@ -818,7 +815,7 @@ Response :
         "shift": {
           "id": "number",
           "type": "text",
-          "start_end": "text",
+          "start_time": "text",
           "end_time": "text"
         }
       },
@@ -844,7 +841,7 @@ Response :
         "shift": {
           "id": "number",
           "type": "text",
-          "start_end": "text",
+          "start_time": "text",
           "end_time": "text"
         }
       },
@@ -860,6 +857,9 @@ Response :
   ]
 }
 ```
+
+- Info : 
+  - API ini akan mengembalikan data kehadiran bulan ini khusus untuk employee yang login (berdasarkan token JWT)
 
 ### Get Attendance by 3 date ago +
 

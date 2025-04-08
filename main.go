@@ -47,6 +47,7 @@ func main()  {
 		protected.PUT("/attendance", controllers.UpdateAttendance)
 		protected.GET("/attendance", attendance.GetAttendanceLastThreeDays)
 		protected.GET("/attendance/today", attendance.GetAttendanceToday)
+		protected.GET("/attendance/month", attendance.GetAttendanceThisMonth)
 	}
 
 	// Department routes
