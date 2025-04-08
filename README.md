@@ -960,7 +960,7 @@ Response :
 
 <!-- ## Get All attendance users (panel admin) -->
 
-### Create Attendance Employee (For Checkin)
+### Create Attendance Employee (For Checkin) +
 
 Request :
 
@@ -1014,7 +1014,7 @@ Response :
 }
 ```
 
-### Update Attendace Employee (For Checkout)
+### Update Attendace Employee (For Checkout) +
 
 Request :
 
@@ -1122,7 +1122,7 @@ Response :
 }
 ```
 
-### Create Schedule Employee +
+### Create Schedule Employee 
 
 Request :
 
@@ -1173,7 +1173,7 @@ Response :
 }
 ```
 
-### List Schedule Employee (Tiap - tiap department) +
+### List Schedule Employee (Tiap - tiap department) 
 
 <!-- Ini dikelola oleh manajer/supervisor di tiap departemen -->
 
@@ -1252,7 +1252,7 @@ Response :
 }
 ```
 
-### Update Schedule Employee +
+### Update Schedule Employee 
 
 Request :
 
@@ -1304,7 +1304,7 @@ Response :
 }
 ```
 
-### Delete Schedule Employee +
+### Delete Schedule Employee 
 
 Request :
 

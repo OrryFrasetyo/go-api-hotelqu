@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/OrryFrasetyo/go-api-hotelqu/controllers"
+	"github.com/OrryFrasetyo/go-api-hotelqu/controllers/attendance"
 	"github.com/OrryFrasetyo/go-api-hotelqu/middlewares"
 	"github.com/OrryFrasetyo/go-api-hotelqu/models"
 	"github.com/gin-gonic/gin"
@@ -42,6 +43,7 @@ func main()  {
 		protected.DELETE("/schedules/:id", controllers.DeleteSchedule)
 		protected.POST("/attendance", controllers.CreateAttendance)
 		protected.PUT("/attendance", controllers.UpdateAttendance)
+		protected.GET("/attendance", attendance.GetAttendanceLastThreeDays)
 	}
 
 	// Department routes
