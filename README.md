@@ -613,7 +613,7 @@ Response :
 Request :
 
 - Method : GET
-- Endpoint : `api/attendance`
+- Endpoint : `api/attendance/today`
 - Header :
   - Authorization : Bearer "token_key"
   - Accept: application/json
@@ -637,7 +637,7 @@ Response :
       "shift": {
         "id": "number",
         "type": "text",
-        "start_end": "text",
+        "start_time": "text",
         "end_time": "text"
       }
     },
@@ -652,6 +652,9 @@ Response :
   }
 }
 ```
+
+- Information :
+  - API ini akan mengembalikan data kehadiran hari ini khusus untuk employee yang sedang login (berdasarkan token JWT)
 
 ### Get Attendance by Status (clock in status / clock out status)
 
@@ -858,7 +861,7 @@ Response :
 }
 ```
 
-### Get Attendance by 3 date ago
+### Get Attendance by 3 date ago +
 
 Request :
 
@@ -1122,7 +1125,7 @@ Response :
 }
 ```
 
-### Create Schedule Employee 
+### Create Schedule Employee
 
 Request :
 
@@ -1173,7 +1176,7 @@ Response :
 }
 ```
 
-### List Schedule Employee (Tiap - tiap department) 
+### List Schedule Employee (Tiap - tiap department)
 
 <!-- Ini dikelola oleh manajer/supervisor di tiap departemen -->
 
@@ -1252,7 +1255,7 @@ Response :
 }
 ```
 
-### Update Schedule Employee 
+### Update Schedule Employee
 
 Request :
 
@@ -1304,7 +1307,7 @@ Response :
 }
 ```
 
-### Delete Schedule Employee 
+### Delete Schedule Employee
 
 Request :
 

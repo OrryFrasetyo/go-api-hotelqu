@@ -41,9 +41,12 @@ func main()  {
 		protected.POST("/schedules", controllers.CreateSchedule)
 		protected.PUT("/schedules/:id", controllers.UpdateSchedule)
 		protected.DELETE("/schedules/:id", controllers.DeleteSchedule)
+
+		// attendance endpoints
 		protected.POST("/attendance", controllers.CreateAttendance)
 		protected.PUT("/attendance", controllers.UpdateAttendance)
 		protected.GET("/attendance", attendance.GetAttendanceLastThreeDays)
+		protected.GET("/attendance/today", attendance.GetAttendanceToday)
 	}
 
 	// Department routes
