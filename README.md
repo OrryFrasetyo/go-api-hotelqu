@@ -661,7 +661,7 @@ Response :
 Request :
 
 - Method : GET
-- Endpoint : `api/attendance?status={clock_in_status}`
+- Endpoint : `api/attendance?status={clock_in_status/clock_out_status}`
 - Param :
   - clock_in_status : "string" (optional)
   - clock_out_status : "string" (optional)
@@ -690,7 +690,7 @@ Response :
         "shift": {
           "id": "number",
           "type": "text",
-          "start_end": "text",
+          "start_time": "text",
           "end_time": "text"
         }
       },
@@ -716,7 +716,7 @@ Response :
         "shift": {
           "id": "number",
           "type": "text",
-          "start_end": "text",
+          "start_time": "text",
           "end_time": "text"
         }
       },
@@ -742,7 +742,7 @@ Response :
         "shift": {
           "id": "number",
           "type": "text",
-          "start_end": "text",
+          "start_time": "text",
           "end_time": "text"
         }
       },

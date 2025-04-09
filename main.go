@@ -48,6 +48,7 @@ func main()  {
 		protected.GET("/attendance", attendance.GetAttendanceLastThreeDays)
 		protected.GET("/attendance/today", attendance.GetAttendanceToday)
 		protected.GET("/attendance/month", attendance.GetAttendanceThisMonth)
+		protected.GET("/attendance/status", attendance.GetAttendanceByStatus)
 	}
 
 	// Department routes
