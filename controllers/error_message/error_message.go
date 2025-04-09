@@ -1,8 +1,7 @@
-package controllers
+package errormessage
 
 import "github.com/go-playground/validator/v10"
 
-// type error message
 type ErrorMsg struct {
 	Field   string `json:"field"`
 	Message string `json:"message"`

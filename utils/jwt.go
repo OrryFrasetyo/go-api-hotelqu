@@ -11,7 +11,6 @@ import (
 // secret key to sign jwt, in production use environment variable
 var jwtKey = []byte("hotelqu_secret_key") //hotel_qu_secret_key
 
-// JWTClaims is claim custom for JWT
 type JWTClaims struct {
 	Id    int    `json:"id"`
 	Email string `json:"email"`
@@ -41,7 +40,6 @@ func GenerateToken(employee models.Employee) (string, error) {
 	return tokenString, nil
 }
 
-// ValidateToken validates JWT tokens
 func ValidateToken(tokenString string) (*JWTClaims, error) {
 	claims := &JWTClaims{}
 	

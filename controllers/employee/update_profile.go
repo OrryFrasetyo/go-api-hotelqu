@@ -1,4 +1,4 @@
-package controllers
+package employee
 
 import (
 	"errors"
@@ -10,63 +10,13 @@ import (
 	"strings"
 	"time"
 
+	errormessage "github.com/OrryFrasetyo/go-api-hotelqu/controllers/error_message"
 	"github.com/OrryFrasetyo/go-api-hotelqu/models"
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
 	"gorm.io/gorm"
 )
 
-// GetProfile returns the profile of the authenticated employee
-func GetProfile(c *gin.Context) {
-	// Get employee ID from the JWT token (set by middleware)
-	employeeId, exists := c.Get("employeeId")
-	if !exists {
-		c.JSON(http.StatusUnauthorized, gin.H{
-			"error":   true,
-			"message": "Unauthorized access",
-		})
-		return
-	}
-
-	// Find employee by ID with position and department information
-	var employee models.Employee
-	if err := models.DB.Preload("Position.Department").First(&employee, employeeId).Error; err != nil {
-		c.JSON(http.StatusNotFound, gin.H{
-			"error":   true,
-			"message": "Employee not found",
-		})
-		return
-	}
-
-	// Create response
-	var photoURL *string
-	if employee.Photo != nil {
-		photoURL = employee.Photo
-	}
-
-	// Prepare department name
-	var departmentName string
-	if employee.Position.Department.DepartmentName != "" {
-		departmentName = employee.Position.Department.DepartmentName
-	}
-
-	// Create response
-	c.JSON(http.StatusOK, gin.H{
-		"error":   false,
-		"message": "Profile retrieved successfully",
-		"profile": gin.H{
-			"id":         employee.Id,
-			"name":       employee.Name,
-			"email":      employee.Email,
-			"phone":      employee.Phone,
-			"position":   employee.Position.PositionName,
-			"department": departmentName,
-			"photo":      photoURL,
-		},
-	})
-}
-
-// UpdateProfileInput defines the input structure for updating profile
 type UpdateProfileInput struct {
 	Name     string `form:"name" binding:"required"`
 	Password string `form:"password"`
@@ -75,7 +25,6 @@ type UpdateProfileInput struct {
 
 // UpdateProfile handles the profile update of the authenticated employee
 func UpdateProfile(c *gin.Context) {
-	// Get employee ID from the JWT token (set by middleware)
 	employeeId, exists := c.Get("employeeId")
 	if !exists {
 		c.JSON(http.StatusUnauthorized, gin.H{
@@ -107,9 +56,9 @@ func UpdateProfile(c *gin.Context) {
 	if err := c.ShouldBind(&input); err != nil {
 		var ve validator.ValidationErrors
 		if errors.As(err, &ve) {
-			out := make([]ErrorMsg, len(ve))
+			out := make([]errormessage.ErrorMsg, len(ve))
 			for i, fe := range ve {
-				out[i] = ErrorMsg{fe.Field(), GetErrorMsg(fe)}
+				out[i] = errormessage.ErrorMsg{Field: fe.Field(), Message: errormessage.GetErrorMsg(fe)}
 			}
 			c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
 				"error":   true,
@@ -217,7 +166,7 @@ func UpdateProfile(c *gin.Context) {
 	// Update employee data
 	employee.Name = input.Name
 	employee.Phone = input.Phone
-	
+
 	// Only update password if provided
 	if input.Password != "" {
 		if err := employee.HashPassword(input.Password); err != nil {
@@ -243,7 +192,6 @@ func UpdateProfile(c *gin.Context) {
 		return
 	}
 
-	// Get updated employee with position and department
 	if err := models.DB.Preload("Position.Department").First(&employee, employeeId).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error":   true,
@@ -252,13 +200,11 @@ func UpdateProfile(c *gin.Context) {
 		return
 	}
 
-	// Prepare department name
 	var departmentName string
 	if employee.Position.Department.DepartmentName != "" {
 		departmentName = employee.Position.Department.DepartmentName
 	}
 
-	// Return success response with updated profile
 	c.JSON(http.StatusOK, gin.H{
 		"error":   false,
 		"message": "Profile updated successfully",
