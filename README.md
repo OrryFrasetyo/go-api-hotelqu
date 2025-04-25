@@ -1092,34 +1092,16 @@ Response :
   "message": "string",
   "schedules": [
     {
-      "id": "int, unique",
-      "shift_id": "integer",
-      "employee_id": "integer",
-      "created_by": "integer",
-      "name": "string",
-      "position": "string",
+      "id": "integer",
       "date_schedule": "date",
-      "status": "string",
-      "type": "string",
-      "start_time": "time",
-      "end_time": "time",
-      "created_at": "time",
-      "updated_at": "time"
-    },
-    {
-      "id": "int, unique",
-      "shift_id": "integer",
-      "employee_id": "integer",
-      "created_by": "integer",
-      "name": "string",
-      "position": "string",
-      "date_schedule": "date",
-      "status": "string",
-      "type": "string",
-      "start_time": "time",
-      "end_time": "time",
-      "created_at": "time",
-      "updated_at": "time"
+      "shift": {
+        "id": "integer",
+        "start_time": "time",
+        "End_time": "time",
+        "type": "string"
+      },
+      "created_at": "date",
+      "updated_at": "date"
     }
   ]
 }
