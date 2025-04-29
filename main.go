@@ -40,6 +40,7 @@ func main()  {
 
 		// schedules endpoints
 		protected.GET("/schedules", schedule.ListSchedules) 
+		protected.GET("/schedules/today", schedule.GetTodaySchedule)
 		protected.GET("/schedules/department", schedule.ListDepartmentSchedules)
 		protected.POST("/schedules", schedule.CreateSchedule)
 		protected.PUT("/schedules/:id", schedule.UpdateSchedule)
