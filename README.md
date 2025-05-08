@@ -881,82 +881,36 @@ Response :
   "attendances": [
     {
       "id": "int, unique",
-      "employee": {
-        "name": "string",
-        "position": "string"
-      },
-      "schedule": {
-        "id": "integer",
-        "date_schedule": "string",
-        "status": "string",
-        "shift": {
-          "id": "number",
-          "type": "text",
-          "start_end": "text",
-          "end_time": "text"
-        }
-      },
-      "date": "date",
+      "date": "string",
       "clock_in": "string",
       "clock_out": "string",
-      "duration": "string",
       "clock_in_status": "string",
       "clock_out_status": "string",
       "created_at": "string",
-      "updated_at": "string"
+      "updated_at": "string",
     },
     {
       "id": "int, unique",
-      "employee": {
-        "name": "string",
-        "position": "string"
-      },
-      "schedule": {
-        "id": "integer",
-        "date_schedule": "string",
-        "status": "string",
-        "shift": {
-          "id": "number",
-          "type": "text",
-          "start_end": "text",
-          "end_time": "text"
-        }
-      },
-      "date": "date",
+      "date": "string",
       "clock_in": "string",
       "clock_out": "string",
-      "duration": "string",
       "clock_in_status": "string",
       "clock_out_status": "string",
       "created_at": "string",
-      "updated_at": "string"
+      "updated_at": "string",
     },
     {
       "id": "int, unique",
-      "employee": {
-        "name": "string",
-        "position": "string"
-      },
-      "schedule": {
-        "id": "integer",
-        "date_schedule": "string",
-        "status": "string",
-        "shift": {
-          "id": "number",
-          "type": "text",
-          "start_end": "text",
-          "end_time": "text"
-        }
-      },
-      "date": "date",
+      "date": "string",
       "clock_in": "string",
       "clock_out": "string",
-      "duration": "string",
       "clock_in_status": "string",
       "clock_out_status": "string",
       "created_at": "string",
-      "updated_at": "string"
-    }
+      "updated_at": "string",
+    },
+    
+    
   ]
 }
 ```

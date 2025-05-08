@@ -10,9 +10,17 @@ import (
 
 // GetAttendanceLastThreeDays retrieves attendance data for the current day and the previous 2 days
 func GetAttendanceLastThreeDays(c *gin.Context) {
+	employeeID, exists := c.Get("employeeId")
+	if !exists {
+		c.JSON(http.StatusUnauthorized, gin.H{
+			"error":   true,
+			"message": "User not authenticated",
+		})
+		return
+	}
 	// Get current date
 	today := time.Now()
-	
+
 	// Calculate dates (today and 2 days before)
 	dates := []string{
 		today.Format("2006-01-02"),
@@ -20,44 +28,30 @@ func GetAttendanceLastThreeDays(c *gin.Context) {
 		today.AddDate(0, 0, -2).Format("2006-01-02"),
 	}
 
-	// Response structure
-	type AttendanceResponse struct {
-		ID            uint   `json:"id"`
-		Employee      struct {
-			Name     string `json:"name"`
-			Position string `json:"position"`
-		} `json:"employee"`
-		Schedule      struct {
-			ID           uint   `json:"id"`
-			DateSchedule string `json:"date_schedule"`
-			Status       string `json:"status"`
-			Shift        struct {
-				ID        uint   `json:"id"`
-				Type      string `json:"type"`
-				StartTime string `json:"start_end"`
-				EndTime   string `json:"end_time"`
-			} `json:"shift"`
-		} `json:"schedule"`
-		Date           string `json:"date"`
-		ClockIn        string `json:"clock_in"`
-		ClockOut       string `json:"clock_out"`
-		Duration       string `json:"duration"`
-		ClockInStatus  string `json:"clock_in_status"`
-		ClockOutStatus string `json:"clock_out_status"`
-		CreatedAt      string `json:"created_at"`
-		UpdatedAt      string `json:"updated_at"`
+	// Query attendances for the last three days with only necessary relations
+	// And filter by the current employee
+	var schedules []models.Schedule
+	if err := models.DB.Where("employee_id = ?", employeeID).Find(&schedules).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error":   true,
+			"message": "Failed to retrieve schedules: " + err.Error(),
+		})
+		return
 	}
 
+	// Get schedule IDs for the employee
+	var scheduleIDs []uint
+	for _, schedule := range schedules {
+		scheduleIDs = append(scheduleIDs, schedule.ID)
+	}
+
+	// Query attendances using schedule IDs and dates
 	var attendances []models.Attendance
-	
-	// Query attendances for the last three days with all related data
-	result := models.DB.
-		Preload("Schedule").
+	result := models.DB.Preload("Schedule").
 		Preload("Schedule.Employee").
 		Preload("Schedule.Employee.Position").
-		Preload("Schedule.Employee.Position.Department").
 		Preload("Schedule.Shift").
-		Where("date IN ?", dates).
+		Where("date IN ? AND schedule_id IN ?", dates, scheduleIDs).
 		Find(&attendances)
 
 	if result.Error != nil {
@@ -68,35 +62,28 @@ func GetAttendanceLastThreeDays(c *gin.Context) {
 		return
 	}
 
+	// If no attendances found, return empty result
+	if len(attendances) == 0 {
+		c.JSON(http.StatusOK, gin.H{
+			"error":      false,
+			"message":    "No attendance data found",
+			"attendance": []interface{}{},
+		})
+		return
+	}
+
 	// Process data for response
-	var responseAttendances []AttendanceResponse
+	var responseAttendances []gin.H
 	for _, att := range attendances {
-		var respAtt AttendanceResponse
-		respAtt.ID = att.ID
-		respAtt.Date = att.Date
-		respAtt.ClockIn = att.ClockIn
-		respAtt.ClockOut = att.ClockOut
-		respAtt.Duration = att.Duration
-		respAtt.ClockInStatus = att.ClockInStatus
-		respAtt.ClockOutStatus = att.ClockOutStatus
-		respAtt.CreatedAt = att.CreatedAt.Format(time.RFC3339)
-		respAtt.UpdatedAt = att.UpdatedAt.Format(time.RFC3339)
-
-		// Set schedule data
-		respAtt.Schedule.ID = att.Schedule.ID
-		respAtt.Schedule.DateSchedule = att.Schedule.DateSchedule
-		respAtt.Schedule.Status = att.Schedule.Status
-		
-		// Set shift data
-		respAtt.Schedule.Shift.ID = att.Schedule.Shift.ID
-		respAtt.Schedule.Shift.Type = att.Schedule.Shift.Type
-		respAtt.Schedule.Shift.StartTime = att.Schedule.Shift.StartTime
-		respAtt.Schedule.Shift.EndTime = att.Schedule.Shift.EndTime
-
-		// Set employee data
-		respAtt.Employee.Name = att.Schedule.Employee.Name
-		if att.Schedule.Employee.Position.PositionName != "" {
-			respAtt.Employee.Position = att.Schedule.Employee.Position.PositionName
+		respAtt := gin.H{
+			"id":               att.ID,
+			"date":             att.Date,
+			"clock_in":         att.ClockIn,
+			"clock_out":        att.ClockOut,
+			"clock_in_status":  att.ClockInStatus,
+			"clock_out_status": att.ClockOutStatus,
+			"created_at":       att.CreatedAt.Format(time.RFC3339),
+			"updated_at":       att.UpdatedAt.Format(time.RFC3339),
 		}
 
 		responseAttendances = append(responseAttendances, respAtt)
@@ -106,6 +93,6 @@ func GetAttendanceLastThreeDays(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"error":      false,
 		"message":    "Attendance data retrieved successfully",
-		"attendances": responseAttendances,
+		"attendance": responseAttendances,
 	})
 }
