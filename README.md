@@ -603,6 +603,31 @@ Response :
 }
 ```
 
+### Get all Name Employee for Department
+Request :
+
+- Method : GET
+- Endpoint : `api/employees`
+- Header :
+  - Authorization : Bearer "token_key"
+  - Accept: application/json
+
+Response :
+
+```json
+{
+  "error": "boolean",
+  "message": "string",
+  "employees": {
+    {"name": "string"},
+    {"name": "string"},
+    {"name": "string"}, 
+    {"name": "string"},
+  }
+}
+```
+
+
 <!-- ## Get All Profile User (Panel Admin)
 ## Delete Profile User (Panel Admin) -->
 

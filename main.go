@@ -37,6 +37,7 @@ func main()  {
 		// User profile route
 		protected.GET("/user", employee.GetProfile)
 		protected.PUT("/user", employee.UpdateProfile)
+		protected.GET("/employees", employee.GetEmployeesForDepartment)
 
 		// schedules endpoints
 		protected.GET("/schedules", schedule.ListSchedules) 

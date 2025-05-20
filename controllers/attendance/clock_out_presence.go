@@ -105,6 +105,7 @@ func UpdateAttendance(c *gin.Context) {
 		"attendance": gin.H{
 			"id": attendance.ID,
 			"employee": gin.H{
+				"id":       schedule.Employee.Id,
 				"name":     schedule.Employee.Name,
 				"position": schedule.Employee.Position.PositionName,
 			},
@@ -112,12 +113,6 @@ func UpdateAttendance(c *gin.Context) {
 				"id":            schedule.ID,
 				"date_schedule": schedule.DateSchedule,
 				"status":        schedule.Status,
-				"shift": gin.H{
-					"id":         schedule.Shift.ID,
-					"type":       schedule.Shift.Type,
-					"start_time": schedule.Shift.StartTime,
-					"end_time":   schedule.Shift.EndTime,
-				},
 			},
 			"date":             attendance.Date,
 			"clock_in":         attendance.ClockIn,
