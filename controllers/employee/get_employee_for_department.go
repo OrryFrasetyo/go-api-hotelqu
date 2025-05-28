@@ -49,6 +49,7 @@ func GetEmployeesForDepartment(c *gin.Context) {
 	var employeeNames []gin.H
 	for _, emp := range employees {
 		employeeNames = append(employeeNames, gin.H{
+			"employee_id": emp.Id,
 			"name": emp.Name,
 		})
 	}

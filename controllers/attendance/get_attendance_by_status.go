@@ -76,30 +76,15 @@ func formatAttendanceResponse(attendances []models.Attendance) []gin.H {
 	for _, attendance := range attendances {
 		// Format each attendance record according to API spec
 		formattedAttendance := gin.H{
-			"id": attendance.ID,
-			"employee": gin.H{
-				"name":     attendance.Schedule.Employee.Name,
-				"position": attendance.Schedule.Employee.Position.PositionName,
-			},
-			"schedule": gin.H{
-				"id":            attendance.Schedule.ID,
-				"date_schedule": attendance.Schedule.DateSchedule,
-				"status":        attendance.Schedule.Status,
-				"shift": gin.H{
-					"id":         attendance.Schedule.Shift.ID,
-					"type":       attendance.Schedule.Shift.Type,
-					"start_time": attendance.Schedule.Shift.StartTime,
-					"end_time":   attendance.Schedule.Shift.EndTime,
-				},
-			},
-			"date":            attendance.Date,
-			"clock_in":        attendance.ClockIn,
-			"clock_out":       attendance.ClockOut,
-			"duration":        attendance.Duration,
-			"clock_in_status": attendance.ClockInStatus,
+			"id":               attendance.ID,
+			"date":             attendance.Date,
+			"clock_in":         attendance.ClockIn,
+			"clock_out":        attendance.ClockOut,
+			"duration":         attendance.Duration,
+			"clock_in_status":  attendance.ClockInStatus,
 			"clock_out_status": attendance.ClockOutStatus,
-			"created_at":      attendance.CreatedAt,
-			"updated_at":      attendance.UpdatedAt,
+			"created_at":       attendance.CreatedAt,
+			"updated_at":       attendance.UpdatedAt,
 		}
 
 		formattedAttendances = append(formattedAttendances, formattedAttendance)
