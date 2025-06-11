@@ -145,10 +145,8 @@ func UpdateSchedule(c *gin.Context) {
 		schedule.DateSchedule = mysqlFormattedDate
 	}
 
-	if request.Status != "" {
 		schedule.Status = request.Status
-	}
-
+	
 	if err := models.DB.Save(&schedule).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error":   true,
