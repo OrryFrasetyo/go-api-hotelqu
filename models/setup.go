@@ -12,7 +12,7 @@ import (
 var DB *gorm.DB
 
 func ConnectDatabase() {
-	dsn := os.Getenv("MYSQL_URL")
+	dsn := os.Getenv("mysql_url")
 
 	log.Printf("DEBUG: MYSQL_URL value from environment: %s", dsn)
 	// Pastikan dsn tidak kosong
