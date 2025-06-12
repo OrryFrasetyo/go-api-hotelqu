@@ -11,7 +11,7 @@ import (
 var DB *gorm.DB
 
 func ConnectDatabase() {
-	dsn := os.Getenv("MYSQL_URL")
+	dsn := os.Getenv("MYSQL_PUBLIC_URL")
 
 	// Pastikan dsn tidak kosong
 	if dsn == "" {
