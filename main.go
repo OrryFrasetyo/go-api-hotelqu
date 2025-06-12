@@ -1,6 +1,9 @@
 package main
 
 import (
+	"log"
+	"os"
+
 	"github.com/OrryFrasetyo/go-api-hotelqu/controllers/attendance"
 	"github.com/OrryFrasetyo/go-api-hotelqu/controllers/authentication"
 	"github.com/OrryFrasetyo/go-api-hotelqu/controllers/department"
@@ -78,5 +81,12 @@ func main()  {
 	router.DELETE("/api/shifts/:id", shift.DeleteShift)
 
 	// start server with port 3000
-	router.Run(":3000")
+	// router.Run(":3000")
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "3000" // Port default jika dijalankan di lokal
+	}
+
+	log.Printf("Server starting on port %s", port) 
+	router.Run(":" + port)
 }
