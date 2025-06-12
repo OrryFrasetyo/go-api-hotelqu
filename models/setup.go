@@ -2,6 +2,7 @@ package models
 
 import (
 	"fmt"
+	"log"
 	"os"
 
 	"gorm.io/driver/mysql"
@@ -13,13 +14,16 @@ var DB *gorm.DB
 func ConnectDatabase() {
 	dsn := os.Getenv("MYSQL_URL")
 
+	log.Printf("DEBUG: MYSQL_URL value from environment: %s", dsn)
 	// Pastikan dsn tidak kosong
 	if dsn == "" {
-		panic("MYSQL_URL environment variable is not set")
+		log.Println("ERROR: MYSQL_URL environment variable is empty!")
+		panic("MYSQL_URL environment variable is not set. Please check Railway variables.")
 	}
 
 	database, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
+		log.Printf("ERROR: Failed to connect to database using DSN: %s", dsn)
 		panic(fmt.Sprintf("failed to connect database : %v", err))
 	}
 
