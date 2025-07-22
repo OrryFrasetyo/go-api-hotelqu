@@ -312,7 +312,7 @@ Response :
 
 <!-- CRUD Position -->
 
-## CRUD Position 
+## CRUD Position
 
 ### Create Position
 
@@ -346,7 +346,6 @@ Response :
     "department_name": "string",
     "position_name": "string",
     "is_completed": "boolean"
-
   }
 }
 ```
@@ -470,10 +469,11 @@ Response :
   "message": "string"
 }
 ```
+
 <!--CRUD Position -->
 <!-- Panel Admin -->
 
-## Register 
+## Register
 
 Request :
 
@@ -503,7 +503,7 @@ Response :
 }
 ```
 
-## Login 
+## Login
 
 Request :
 
@@ -535,7 +535,7 @@ Response :
 }
 ```
 
-## Profile Employee 
+## Profile Employee
 
 ### Get Profile Employee
 
@@ -964,7 +964,7 @@ Request :
 {
   "clock_out": "time"
 }
-```
+```   
 
 Response :
 
@@ -1236,5 +1236,404 @@ Response :
 {
   "error": "boolean",
   "message": "string"
+}
+```
+
+## Performance Management
+
+### Create Task
+
+Request :
+
+- Method : POST
+- Endpoint : `/api/tasks`
+- Header :
+  - Authorization : Bearer "token_key"
+  - Content-Type: application/json
+  - Accept: application/json
+- Body :
+
+  ```json
+  {
+    "employee_id": 12,
+    "schedule_id": 45,
+    "task_items": [
+      "Cek kebersihan kamar",
+      "Cek kebersihan toilet",
+      "Lain-lain"
+    ],
+    "date_task": "2025-02-10",
+    "deadline": "2025-02-10"
+  }
+  ```
+
+- Response :
+
+  ```json
+  {
+    "error": false,
+    "message": "Tugas berhasil ditambahkan",
+    "task": {
+      "id": "integer",
+      "employee": {
+        "id": "integer",
+        "name": "string"
+      },
+      "created_by": {
+        "id": "integer",
+        "name": "string"
+      },
+      "schedule": {
+        "id": "integer",
+        "date_schedule": "date",
+        "shift": {
+          "id": "integer",
+          "type": "string"
+        }
+      },
+      "task_items": [
+        {
+          "id": "integer",
+          "description": "string",
+          "is_completed": false
+        },
+        {
+          "id": "integer",
+          "description": "string",
+          "is_completed": false
+        }
+      ],
+      "date_task": "date",
+      "deadline": "date",
+      "status": "Belum Dikerjakan",
+      "feedback": "-",
+      "created_at": "2025-07-15T09:00:00Z",
+      "updated_at": "2025-07-15T09:00:00Z"
+    }
+  }
+  ```
+
+### List Task for Manajer/Supervisor in Department
+
+Request :
+
+- Method : GET
+- Endpoint : `/api/tasks/department`
+- Header :
+  - Authorization : Bearer "token_key"
+  - Accept: application/json
+- Parameter :
+  - date_task : string (format: DD-MM-YYYY, opsional) - untuk memfilter berdasarkan tanggal
+  - department_id : integer (opsional) - untuk memfilter berdasarkan departemen
+
+Response :
+
+```json
+{
+  "error": "false",
+  "message": "Tugas Pegawai Berhasil Ditampilkan",
+  "meta": {
+    "date": "date",
+    "department": {
+      "id": "integer",
+      "department_name": "string"
+    },
+    "total_employees": "integer"
+  },
+  "list_task": [
+    {
+      "id": "integer",
+      "employee": {
+        "id": "integer",
+        "name": "string"
+      },
+      "created_by": {
+        "id": "integer",
+        "name": "string"
+      },
+      "schedule": {
+        "id": "string",
+        "date": "date"
+      },
+      "task_items": [
+        {
+          "id": "integer",
+          "description": "text",
+          "is_completed": "boolean"
+        },
+        {
+          "id": "integer",
+          "description": "text",
+          "is_completed": "boolean"
+        }
+      ],
+      "date_task": "date",
+      "deadline": "date",
+      "status": "string",
+      "feedback": "string",
+      "created_at": "2025-07-15T09:00:00Z",
+      "updated_at": "2025-07-15T09:00:00Z"
+    },
+    {
+      "id": "integer",
+      "employee": {
+        "id": "integer",
+        "name": "string"
+      },
+      "created_by": {
+        "id": "integer",
+        "name": "string"
+      },
+      "schedule": {
+        "id": "string",
+        "date": "date"
+      },
+      "task_items": [
+        {
+          "id": "integer",
+          "description": "text",
+          "is_completed": "boolean"
+        },
+        {
+          "id": "integer",
+          "description": "text",
+          "is_completed": "boolean"
+        }
+      ],
+      "date_task": "date",
+      "deadline": "date",
+      "status": "string",
+      "feedback": "string",
+      "created_at": "2025-07-15T09:00:00Z",
+      "updated_at": "2025-07-15T09:00:00Z"
+    }
+  ]
+}
+```
+
+### Update Task for Manajer/Supervisor in Department
+
+Request :
+
+- Method : PUT
+- Endpoint : `/api/tasks/{id}`
+- Header :
+  - Authorization : Bearer "token_key"
+  - Content-Type: application/json
+  - Accept: application/json
+- Body :
+
+```json
+{
+  "employee_id": "integer",
+  "schedule_id": "integer",
+  "task_items": [
+    {
+      "id": 101, // task item lama → update
+      "description": "Cek kamar",
+      "is_completed": true
+    },
+    {
+      "id": null, // task item baru → insert
+      "description": "Cek balkon",
+      "is_completed": false
+    }
+  ],
+  "date_task": "date",
+  "deadline": "date",
+  "status": "string",
+  "feedback": "text"
+}
+```
+
+Response :
+
+```json
+{
+  "error": false,
+  "message": "Tugas berhasil diedit",
+  "task": {
+    "id": "integer",
+    "employee": {
+      "id": "integer",
+      "name": "string"
+    },
+    "created_by": {
+      "id": "integer",
+      "name": "string"
+    },
+    "schedule": {
+      "id": "integer",
+      "date_schedule": "date",
+      "shift": {
+        "id": "integer",
+        "type": "string"
+      }
+    },
+    "task_items": [
+      {
+        "id": "integer",
+        "description": "string",
+        "is_completed": false
+      },
+      {
+        "id": "integer",
+        "description": "string",
+        "is_completed": false
+      }
+    ],
+    "date_task": "date",
+    "deadline": "date",
+    "status": "string",
+    "feedback": "-",
+    "created_at": "2025-07-15T09:00:00Z",
+    "updated_at": "2025-07-15T09:00:00Z"
+  }
+}
+```
+
+### Delete Task for Manajer/Supervisor In Department
+
+Request :
+
+- Method : DELETE
+- Endpoint : `/api/tasks/{id}`
+- Header :
+  - Authorization : Bearer "token_key"
+  - Accept: application/json
+
+Response :
+
+```json
+{
+  "error": "boolean",
+  "message": "string"
+}
+```
+
+### List Task
+
+Request :
+
+- Method : GET
+- Endpoint : `/api/task`
+- Header :
+  - Authorization : Bearer "token_key"
+  - Accept: application/json
+- Parameter :
+  - date_task : string (format: DD-MM-YYYY, opsional) - untuk memfilter berdasarkan tanggal
+
+Response :
+
+```json
+{
+  "error": "false",
+  "message": "Tugas Pegawai Berhasil Ditampilkan",
+  "task": {
+    "id": "integer",
+    "employee": {
+      "id": "integer",
+      "name": "string"
+    },
+    "created_by": {
+      "id": "integer",
+      "name": "string"
+    },
+    "schedule": {
+      "id": "string",
+      "date": "date"
+    },
+    "task_items": [
+      {
+        "id": "integer",
+        "description": "text",
+        "is_completed": "boolean"
+      },
+      {
+        "id": "integer",
+        "description": "text",
+        "is_completed": "boolean"
+      }
+    ],
+    "date_task": "date",
+    "deadline": "date",
+    "status": "string",
+    "feedback": "string",
+    "created_at": "2025-07-15T09:00:00Z",
+    "updated_at": "2025-07-15T09:00:00Z"
+  }
+}
+```
+
+### Ceklis Task for Staff/Officer (Update)
+
+Request :
+
+- Method : PUT
+- Endpoint : `/api/task/{id}`
+- Header :
+  - Authorization : Bearer "token_key"
+  - Content-Type: application/json
+  - Accept: application/json
+- Body :
+
+```json
+{
+  "task_items": [
+    {
+      "id": "integer", 
+      "is_completed": "boolean"
+    },
+    {
+      "id": "integer", 
+      "is_completed": "boolean"
+    }
+  ],
+}
+```
+
+Response :
+
+```json
+{
+  "error": false,
+  "message": "Tugas berhasil diedit",
+  "task": {
+    "id": "integer",
+    "employee": {
+      "id": "integer",
+      "name": "string"
+    },
+    "created_by": {
+      "id": "integer",
+      "name": "string"
+    },
+    "schedule": {
+      "id": "integer",
+      "date_schedule": "date",
+      "shift": {
+        "id": "integer",
+        "type": "string"
+      }
+    },
+    "task_items": [
+      {
+        "id": "integer",
+        "description": "string",
+        "is_completed": false
+      },
+      {
+        "id": "integer",
+        "description": "string",
+        "is_completed": false
+      }
+    ],
+    "date_task": "date",
+    "deadline": "date",
+    "status": "Sedang Di Cek",
+    "feedback": "- / (null)",
+    "created_at": "2025-07-15T09:00:00Z",
+    "updated_at": "2025-07-15T09:00:00Z"
+  }
 }
 ```
