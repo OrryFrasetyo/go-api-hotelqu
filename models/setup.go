@@ -48,7 +48,7 @@ func ConnectDatabase() {
 	}
 
 	fmt.Println("Starting database migration...")
-	err = database.AutoMigrate(&Department{}, &Position{}, &Shift{}, &Employee{}, &Schedule{}, &Attendance{})
+	err = database.AutoMigrate(&Department{}, &Position{}, &Shift{}, &Employee{}, &Schedule{}, &Attendance{}, &Task{}, &TaskItem{})
 	if err != nil {
 		panic("failed to migrate: " + err.Error())
 	}

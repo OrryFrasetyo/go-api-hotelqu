@@ -11,6 +11,7 @@ import (
 	"github.com/OrryFrasetyo/go-api-hotelqu/controllers/position"
 	"github.com/OrryFrasetyo/go-api-hotelqu/controllers/schedule"
 	"github.com/OrryFrasetyo/go-api-hotelqu/controllers/shift"
+	"github.com/OrryFrasetyo/go-api-hotelqu/controllers/task" // Tambahkan import untuk task
 	"github.com/OrryFrasetyo/go-api-hotelqu/middlewares"
 	"github.com/OrryFrasetyo/go-api-hotelqu/models"
 	"github.com/gin-gonic/gin"
@@ -57,6 +58,13 @@ func main()  {
 		protected.GET("/attendance/today", attendance.GetAttendanceToday)
 		protected.GET("/attendance/month", attendance.GetAttendanceThisMonth)
 		protected.GET("/attendance/status", attendance.GetAttendanceByStatus)
+
+		// task endpoints (hanya untuk manajer/supervisor)
+		taskRoutes := protected.Group("/tasks")
+		taskRoutes.Use(middlewares.ManagerAuth())
+		{
+			taskRoutes.POST("", task.CreateTask)
+		}
 	}
 
 	// Department routes
