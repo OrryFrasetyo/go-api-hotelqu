@@ -17,7 +17,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func main()  {
+func main() {
 	router := gin.Default()
 
 	router.Static("/uploads", "./uploads")
@@ -25,7 +25,7 @@ func main()  {
 	models.ConnectDatabase()
 
 	router.GET("/", func(c *gin.Context) {
-		c.JSON(200, gin.H {
+		c.JSON(200, gin.H{
 			"message": "Hello Hotelqu",
 		})
 	})
@@ -44,7 +44,7 @@ func main()  {
 		protected.GET("/employees", employee.GetEmployeesForDepartment)
 
 		// schedules endpoints
-		protected.GET("/schedules", schedule.ListSchedules) 
+		protected.GET("/schedules", schedule.ListSchedules)
 		protected.GET("/schedules/today", schedule.GetTodaySchedule)
 		protected.GET("/schedules/department", schedule.ListDepartmentSchedules)
 		protected.POST("/schedules", schedule.CreateSchedule)
@@ -64,6 +64,8 @@ func main()  {
 		taskRoutes.Use(middlewares.ManagerAuth())
 		{
 			taskRoutes.POST("", task.CreateTask)
+			taskRoutes.GET("/department", task.ListDepartmentTasks)
+			taskRoutes.PUT("/:id", task.UpdateTask)
 		}
 	}
 
@@ -95,6 +97,6 @@ func main()  {
 		port = "3000" // Port default jika dijalankan di lokal
 	}
 
-	log.Printf("Server starting on port %s", port) 
+	log.Printf("Server starting on port %s", port)
 	router.Run(":" + port)
 }

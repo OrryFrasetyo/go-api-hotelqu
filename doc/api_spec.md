@@ -1256,7 +1256,6 @@ Request :
   ```json
   {
     "employee_id": 12,
-    "schedule_id": 45,
     "task_items": [
       "Cek kebersihan kamar",
       "Cek kebersihan toilet",
@@ -1282,14 +1281,6 @@ Request :
       "created_by": {
         "id": "integer",
         "name": "string"
-      },
-      "schedule": {
-        "id": "integer",
-        "date_schedule": "date",
-        "shift": {
-          "id": "integer",
-          "type": "string"
-        }
       },
       "task_items": [
         {
@@ -1319,7 +1310,7 @@ Request :
 Request :
 
 - Method : GET
-- Endpoint : `/api/tasks/department`
+- Endpoint : `/api/tasks/department?date_task=22-07-2025`
 - Header :
   - Authorization : Bearer "token_key"
   - Accept: application/json
@@ -1352,10 +1343,6 @@ Response :
         "id": "integer",
         "name": "string"
       },
-      "schedule": {
-        "id": "string",
-        "date": "date"
-      },
       "task_items": [
         {
           "id": "integer",
@@ -1368,8 +1355,8 @@ Response :
           "is_completed": "boolean"
         }
       ],
-      "date_task": "date",
-      "deadline": "date",
+      "date_task": "date (ex:22-07-2025)",
+      "deadline": "date (ex:22-07-2025)",
       "status": "string",
       "feedback": "string",
       "created_at": "2025-07-15T09:00:00Z",
@@ -1385,10 +1372,6 @@ Response :
         "id": "integer",
         "name": "string"
       },
-      "schedule": {
-        "id": "string",
-        "date": "date"
-      },
       "task_items": [
         {
           "id": "integer",
@@ -1401,8 +1384,8 @@ Response :
           "is_completed": "boolean"
         }
       ],
-      "date_task": "date",
-      "deadline": "date",
+      "date_task": "date (ex:22-07-2025)",
+      "deadline": "date (ex:22-07-2025)",
       "status": "string",
       "feedback": "string",
       "created_at": "2025-07-15T09:00:00Z",
@@ -1426,24 +1409,22 @@ Request :
 
 ```json
 {
-  "employee_id": "integer",
-  "schedule_id": "integer",
+  "employee_id": "integer" ,
   "task_items": [
     {
       "id": 101, // task item lama → update
-      "description": "Cek kamar",
+      "description": "Cek kamar " ,
       "is_completed": true
     },
     {
       "id": null, // task item baru → insert
-      "description": "Cek balkon",
-      "is_completed": false
+      "description": "Cek balkon"  ,
+      "is_completed": false 
     }
   ],
-  "date_task": "date",
-  "deadline": "date",
-  "status": "string",
-  "feedback": "text"
+  "date_task": "date (ex: 25-07-2025)", 
+  "deadline": "date (ex: 25-07-2025)", 
+  "status": "string", 
 }
 ```
 
@@ -1463,14 +1444,6 @@ Response :
       "id": "integer",
       "name": "string"
     },
-    "schedule": {
-      "id": "integer",
-      "date_schedule": "date",
-      "shift": {
-        "id": "integer",
-        "type": "string"
-      }
-    },
     "task_items": [
       {
         "id": "integer",
@@ -1483,15 +1456,15 @@ Response :
         "is_completed": false
       }
     ],
-    "date_task": "date",
-    "deadline": "date",
+    "date_task": "date (ex: 25-07-2025)",
+    "deadline": "date (ex: 25-07-2025)",
     "status": "string",
-    "feedback": "-",
     "created_at": "2025-07-15T09:00:00Z",
     "updated_at": "2025-07-15T09:00:00Z"
   }
 }
 ```
+
 
 ### Delete Task for Manajer/Supervisor In Department
 

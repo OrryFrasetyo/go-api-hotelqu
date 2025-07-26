@@ -1,6 +1,5 @@
 package middlewares
 
-
 import (
 	"net/http"
 	"strings"

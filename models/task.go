@@ -7,8 +7,6 @@ type Task struct {
 	ID        uint      `json:"id" gorm:"primaryKey"`
 	EmployeeID uint      `json:"employee_id" gorm:"index"`
 	Employee  Employee   `json:"employee" gorm:"foreignKey:EmployeeID"`
-	ScheduleID uint      `json:"schedule_id" gorm:"index"`
-	Schedule  Schedule   `json:"schedule" gorm:"foreignKey:ScheduleID"`
 	CreatedBy uint      `json:"created_by" gorm:"index"`
 	Creator   Employee   `json:"creator" gorm:"foreignKey:CreatedBy"`
 	DateTask  string    `json:"date_task" gorm:"type:date"`
