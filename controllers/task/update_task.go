@@ -56,7 +56,7 @@ func UpdateTask(c *gin.Context) {
 
 	// Binding input dari request
 	var input UpdateTaskInput
-	if err := c.ShouldBindJSON(&input); err != nil {
+	if bindErr := c.ShouldBindJSON(&input); bindErr != nil {
 		var ve validator.ValidationErrors
 		if errors.As(err, &ve) {
 			errorMessages := make([]gin.H, len(ve))
@@ -75,14 +75,14 @@ func UpdateTask(c *gin.Context) {
 		}
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error":   true,
-			"message": err.Error(),
+			"message": bindErr.Error(),
 		})
 		return
 	}
 
 	// Mendapatkan tugas yang akan diupdate
 	var task models.Task
-	if err := models.DB.Preload("Employee").Preload("Employee.Position").Preload("Creator").Preload("TaskItems").First(&task, taskIDUint).Error; err != nil {
+	if dbErr := models.DB.Preload("Employee").Preload("Employee.Position").Preload("Creator").Preload("TaskItems").First(&task, taskIDUint).Error; dbErr != nil {
 		c.JSON(http.StatusNotFound, gin.H{
 			"error":   true,
 			"message": "Tugas tidak ditemukan",
@@ -104,7 +104,7 @@ func UpdateTask(c *gin.Context) {
 
 	// Update employee_id (wajib)
 	var newEmployee models.Employee
-	if err := tx.Preload("Position").First(&newEmployee, input.EmployeeID).Error; err != nil {
+	if dbErr := tx.Preload("Position").First(&newEmployee, input.EmployeeID).Error; dbErr != nil {
 		tx.Rollback()
 		c.JSON(http.StatusNotFound, gin.H{
 			"error":   true,
