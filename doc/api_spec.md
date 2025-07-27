@@ -1465,6 +1465,34 @@ Response :
 }
 ```
 
+### Update Task for input status and message
+
+Request :
+
+- Method : PUT
+- Endpoint : `/api/tasks/status/{id}`
+- Header :
+  - Authorization : Bearer "token_key"
+  - Content-Type: application/json
+  - Accept: application/json
+- Body :
+
+```json
+{ 
+  "status": "string", 
+  "feedback": "string"
+}
+```
+
+Response :
+
+```json
+{
+  "error": false,
+  "message": "Status tugas dan feedback berhasil diedit"
+}
+```
+
 
 ### Delete Task for Manajer/Supervisor In Department
 

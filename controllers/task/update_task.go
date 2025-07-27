@@ -344,3 +344,122 @@ func UpdateTask(c *gin.Context) {
 
 	c.JSON(http.StatusOK, response)
 }
+
+// UpdateTaskStatus menangani PUT /api/tasks/status/:id
+func UpdateTaskStatus(c *gin.Context) {
+
+	// Mendapatkan ID karyawan dari token JWT (diatur oleh middleware)
+	employeeID, exists := c.Get("employeeId")
+	if !exists {
+		c.JSON(http.StatusUnauthorized, gin.H{
+			"error":   true,
+			"message": "Akses tidak diizinkan",
+		})
+		return
+	}
+
+	// Mendapatkan informasi karyawan termasuk posisi
+	var employee models.Employee
+	if err := models.DB.Preload("Position").First(&employee, employeeID).Error; err != nil {
+		c.JSON(http.StatusNotFound, gin.H{
+			"error":   true,
+			"message": "Karyawan tidak ditemukan",
+		})
+		return
+	}
+
+	// Mendapatkan ID tugas dari parameter URL
+	taskID := c.Param("id")
+	if taskID == "" {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error":   true,
+			"message": "ID tugas diperlukan",
+		})
+		return
+	}
+
+	// Konversi ID tugas ke uint
+	taskIDUint, err := strconv.ParseUint(taskID, 10, 32)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error":   true,
+			"message": "ID tugas tidak valid",
+		})
+		return
+	}
+
+	// Binding input dari request
+	var input UpdateTaskStatusInput
+	if bindErr := c.ShouldBindJSON(&input); bindErr != nil {
+		var ve validator.ValidationErrors
+		if errors.As(bindErr, &ve) {
+			errorMessages := make([]gin.H, len(ve))
+			for i, fe := range ve {
+				errorMessages[i] = gin.H{
+					"field":   fe.Field(),
+					"message": errormessage.GetErrorMsg(fe),
+				}
+			}
+			c.JSON(http.StatusBadRequest, gin.H{
+				"error":   true,
+				"message": "Validasi gagal",
+				"errors":  errorMessages,
+			})
+			return
+		}
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error":   true,
+			"message": bindErr.Error(),
+		})
+		return
+	}
+
+	// Mendapatkan tugas yang akan diupdate
+	var task models.Task
+	if dbErr := models.DB.Preload("Employee").Preload("Employee.Position").First(&task, taskIDUint).Error; dbErr != nil {
+		c.JSON(http.StatusNotFound, gin.H{
+			"error":   true,
+			"message": "Tugas tidak ditemukan",
+		})
+		return
+	}
+
+	// Memeriksa apakah karyawan yang mengedit adalah manajer/supervisor dari departemen yang sama
+	if task.Employee.Position.DepartmentId != employee.Position.DepartmentId {
+		c.JSON(http.StatusForbidden, gin.H{
+			"error":   true,
+			"message": "Anda hanya dapat mengedit tugas untuk karyawan di departemen Anda",
+		})
+		return
+	}
+
+	// Update status (wajib)
+	task.Status = input.Status
+
+	// Update feedback jika disediakan
+	if input.Feedback != nil {
+		task.Feedback = *input.Feedback
+	}
+
+	// Simpan perubahan pada task - hanya update field yang diperlukan
+	updateData := map[string]interface{}{
+		"status": task.Status,
+	}
+	if input.Feedback != nil {
+		updateData["feedback"] = task.Feedback
+	}
+
+	if err := models.DB.Model(&task).Updates(updateData).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error":   true,
+			"message": "Gagal mengupdate status tugas: " + err.Error(),
+		})
+		return
+	}
+
+	// Response sukses
+	c.JSON(http.StatusOK, gin.H{
+		"error":   false,
+		"message": "Status tugas dan feedback berhasil diedit",
+	})
+}

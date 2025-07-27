@@ -66,6 +66,7 @@ func main() {
 			taskRoutes.POST("", task.CreateTask)
 			taskRoutes.GET("/department", task.ListDepartmentTasks)
 			taskRoutes.PUT("/:id", task.UpdateTask)
+			taskRoutes.PUT("/status/:id", task.UpdateTaskStatus)
 		}
 	}
 

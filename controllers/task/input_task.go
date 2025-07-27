@@ -21,3 +21,8 @@ type UpdateTaskItem struct {
 	Description *string `json:"description"`
 	IsCompleted *bool   `json:"is_completed"`
 }
+
+type UpdateTaskStatusInput struct {
+	Status   string  `json:"status" binding:"required"`
+	Feedback *string `json:"feedback"`
+}
