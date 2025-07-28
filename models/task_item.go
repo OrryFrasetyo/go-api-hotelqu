@@ -1,6 +1,9 @@
 package models
 
-import "time"
+import (
+	"time"
+	"gorm.io/gorm"
+)
 
 type TaskItem struct {
 	ID          uint      `json:"id" gorm:"primaryKey"`
@@ -9,4 +12,5 @@ type TaskItem struct {
 	IsCompleted bool      `json:"is_completed" gorm:"default:false"`
 	CreatedAt   time.Time `json:"created_at" gorm:"autoCreateTime"`
 	UpdatedAt   time.Time `json:"updated_at" gorm:"autoUpdateTime"`
+	DeletedAt   gorm.DeletedAt `json:"deleted_at,omitempty" gorm:"index"` // Menggunakan gorm.DeletedAt
 }

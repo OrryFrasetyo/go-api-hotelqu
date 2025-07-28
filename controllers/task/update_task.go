@@ -58,7 +58,7 @@ func UpdateTask(c *gin.Context) {
 	var input UpdateTaskInput
 	if bindErr := c.ShouldBindJSON(&input); bindErr != nil {
 		var ve validator.ValidationErrors
-		if errors.As(err, &ve) {
+		if errors.As(bindErr, &ve) {
 			errorMessages := make([]gin.H, len(ve))
 			for i, fe := range ve {
 				errorMessages[i] = gin.H{
@@ -101,6 +101,11 @@ func UpdateTask(c *gin.Context) {
 
 	// Memulai transaksi database
 	tx := models.DB.Begin()
+	defer func() {
+		if r := recover(); r != nil {
+			tx.Rollback()
+		}
+	}()
 
 	// Update employee_id (wajib)
 	var newEmployee models.Employee
@@ -168,8 +173,16 @@ func UpdateTask(c *gin.Context) {
 		return
 	}
 
-	// Simpan perubahan pada task
-	if err := tx.Save(&task).Error; err != nil {
+	// Simpan perubahan pada task - gunakan Updates untuk menghindari masalah dengan DeletedAt
+	updateData := map[string]interface{}{
+		"employee_id": task.EmployeeID,
+		"date_task":   task.DateTask,
+		"deadline":    task.Deadline,
+		"status":      task.Status,
+		"feedback":    task.Feedback,
+	}
+
+	if err := tx.Model(&task).Updates(updateData).Error; err != nil {
 		tx.Rollback()
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error":   true,
@@ -250,33 +263,38 @@ func UpdateTask(c *gin.Context) {
 					return
 				}
 
+				// Prepare update data untuk task item
+				itemUpdateData := make(map[string]interface{})
+
 				// Update description jika disediakan
 				if itemInput.Description != nil {
-					taskItem.Description = *itemInput.Description
+					itemUpdateData["description"] = *itemInput.Description
 				}
 
 				// Update isCompleted jika disediakan
 				if itemInput.IsCompleted != nil {
-					taskItem.IsCompleted = *itemInput.IsCompleted
+					itemUpdateData["is_completed"] = *itemInput.IsCompleted
 				}
 
-				// Simpan perubahan pada task item
-				if err := tx.Save(&taskItem).Error; err != nil {
-					tx.Rollback()
-					c.JSON(http.StatusInternalServerError, gin.H{
-						"error":   true,
-						"message": "Gagal mengupdate item tugas: " + err.Error(),
-					})
-					return
+				// Simpan perubahan pada task item jika ada data yang diupdate
+				if len(itemUpdateData) > 0 {
+					if err := tx.Model(&taskItem).Updates(itemUpdateData).Error; err != nil {
+						tx.Rollback()
+						c.JSON(http.StatusInternalServerError, gin.H{
+							"error":   true,
+							"message": "Gagal mengupdate item tugas: " + err.Error(),
+						})
+						return
+					}
 				}
 			}
 		}
 
-		// Hapus task items yang tidak ada dalam request
+		// Hapus task items yang tidak ada dalam request (HARD DELETE)
 		for _, existingItem := range task.TaskItems {
-			// Jika item tidak ada dalam request, hapus dari database
+			// Jika item tidak ada dalam request, hapus dari database secara permanen
 			if !requestTaskItemIDs[existingItem.ID] {
-				if err := tx.Delete(&models.TaskItem{}, existingItem.ID).Error; err != nil {
+				if err := tx.Unscoped().Delete(&models.TaskItem{}, existingItem.ID).Error; err != nil {
 					tx.Rollback()
 					c.JSON(http.StatusInternalServerError, gin.H{
 						"error":   true,
@@ -302,10 +320,19 @@ func UpdateTask(c *gin.Context) {
 	models.DB.Preload("Employee").Preload("Creator").Preload("TaskItems").First(&updatedTask, task.ID)
 
 	// Konversi format tanggal dari YYYY-MM-DD ke DD-MM-YYYY untuk response
-	dateTask, _ := time.Parse("2006-01-02", updatedTask.DateTask)
-	deadline, _ := time.Parse("2006-01-02", updatedTask.Deadline)
-	dateTaskFormatted := dateTask.Format("02-01-2006")
-	deadlineFormatted := deadline.Format("02-01-2006")
+	// Perbaikan: Pastikan parsing tanggal berhasil
+	var dateTaskFormatted, deadlineFormatted string
+	if dateTask, err := time.Parse("2006-01-02", updatedTask.DateTask); err == nil {
+		dateTaskFormatted = dateTask.Format("02-01-2006")
+	} else {
+		dateTaskFormatted = updatedTask.DateTask // fallback ke format asli jika parsing gagal
+	}
+
+	if deadline, err := time.Parse("2006-01-02", updatedTask.Deadline); err == nil {
+		deadlineFormatted = deadline.Format("02-01-2006")
+	} else {
+		deadlineFormatted = updatedTask.Deadline // fallback ke format asli jika parsing gagal
+	}
 
 	// Menyiapkan response
 	response := gin.H{

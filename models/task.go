@@ -1,7 +1,9 @@
 package models
 
-
-import "time"
+import (
+	"time"
+	"gorm.io/gorm"
+)
 
 type Task struct {
 	ID        uint      `json:"id" gorm:"primaryKey"`
@@ -17,4 +19,5 @@ type Task struct {
 	TaskItems []TaskItem `json:"task_items" gorm:"foreignKey:TaskID"`
 	CreatedAt time.Time `json:"created_at" gorm:"autoCreateTime"`
 	UpdatedAt time.Time `json:"updated_at" gorm:"autoUpdateTime"`
+	DeletedAt gorm.DeletedAt `json:"deleted_at,omitempty" gorm:"index"` // Menggunakan gorm.DeletedAt
 }

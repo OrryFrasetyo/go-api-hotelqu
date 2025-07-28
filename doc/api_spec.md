@@ -1518,7 +1518,7 @@ Response :
 Request :
 
 - Method : GET
-- Endpoint : `/api/task`
+- Endpoint : `/api/task?date_task`
 - Header :
   - Authorization : Bearer "token_key"
   - Accept: application/json
@@ -1541,10 +1541,6 @@ Response :
       "id": "integer",
       "name": "string"
     },
-    "schedule": {
-      "id": "string",
-      "date": "date"
-    },
     "task_items": [
       {
         "id": "integer",
@@ -1560,6 +1556,7 @@ Response :
     "date_task": "date",
     "deadline": "date",
     "status": "string",
+    "message": "string",
     "feedback": "string",
     "created_at": "2025-07-15T09:00:00Z",
     "updated_at": "2025-07-15T09:00:00Z"
@@ -1610,14 +1607,6 @@ Response :
       "id": "integer",
       "name": "string"
     },
-    "schedule": {
-      "id": "integer",
-      "date_schedule": "date",
-      "shift": {
-        "id": "integer",
-        "type": "string"
-      }
-    },
     "task_items": [
       {
         "id": "integer",
@@ -1633,7 +1622,7 @@ Response :
     "date_task": "date",
     "deadline": "date",
     "status": "Sedang Di Cek",
-    "feedback": "- / (null)",
+    "feedback": "-",
     "created_at": "2025-07-15T09:00:00Z",
     "updated_at": "2025-07-15T09:00:00Z"
   }
