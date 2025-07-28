@@ -59,6 +59,9 @@ func main() {
 		protected.GET("/attendance/month", attendance.GetAttendanceThisMonth)
 		protected.GET("/attendance/status", attendance.GetAttendanceByStatus)
 
+		// Task route for employees (accessible by all authenticated users)
+		protected.GET("/task", task.ListTaskEmployee)
+
 		// task endpoints (hanya untuk manajer/supervisor)
 		taskRoutes := protected.Group("/tasks")
 		taskRoutes.Use(middlewares.ManagerAuth())
