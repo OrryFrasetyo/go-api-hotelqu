@@ -1565,7 +1565,7 @@ Response :
 }
 ```
 
-### Ceklis Task for Staff/Officer (Update)
+### Ceklis Task for employee (Update)
 
 Request :
 
@@ -1589,6 +1589,7 @@ Request :
       "is_completed": "boolean"
     }
   ],
+  "message": "string"
 }
 ```
 
@@ -1597,7 +1598,7 @@ Response :
 ```json
 {
   "error": false,
-  "message": "Tugas berhasil diedit",
+  "message": "Tugas berhasil dikerjakan",
   "task": {
     "id": "integer",
     "employee": {
@@ -1623,6 +1624,7 @@ Response :
     "date_task": "date",
     "deadline": "date",
     "status": "Sedang Di Cek",
+    "message": "Sudah dikerjakan boss"
     "feedback": "-",
     "created_at": "2025-07-15T09:00:00Z",
     "updated_at": "2025-07-15T09:00:00Z"

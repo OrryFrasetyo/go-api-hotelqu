@@ -61,6 +61,7 @@ func main() {
 
 		// Task route for employees (accessible by all authenticated users)
 		protected.GET("/task", task.ListTaskEmployee)
+		protected.PUT("/task/:id", task.ChecklistTask)
 
 		// task endpoints (hanya untuk manajer/supervisor)
 		taskRoutes := protected.Group("/tasks")
